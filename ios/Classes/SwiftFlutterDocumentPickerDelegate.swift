@@ -16,7 +16,7 @@ public class SwiftFlutterDocumentPickerDelegate: NSObject {
         flutterResult = result
         self.params = params
 
-        guard let viewController = UIApplication.shared.keyWindow?.rootViewController else {
+        guard let viewController = Self.topViewController() else {
             result(FlutterError.init(code: "error",
                                      message: "Unable to get view controller!",
                                      details: nil)
@@ -89,6 +89,14 @@ extension SwiftFlutterDocumentPickerDelegate: UIDocumentPickerDelegate {
 
     public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         flutterResult?(nil)
+    }
+
+    private static func topViewController() -> UIViewController? {
+        let keyWindow = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }
+        return keyWindow?.rootViewController
     }
 
     private func sanitizeFileName(_ fileName: String) -> String {
