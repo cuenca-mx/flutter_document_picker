@@ -14,6 +14,7 @@ Pods/
 **/Flutter/App.framework/
 **/Flutter/Flutter.framework/
 **/Flutter/Generated.xcconfig
+**/Flutter/ephemeral/
 **/Flutter/flutter_assets/
 ServiceDefinitions.json
 xcuserdata/
@@ -36,3 +37,7 @@ example/ios/Flutter/Flutter.podspec
 
 # FVM Version Cache
 .fvm/
+
+# Swift Package Manager
+.build/
+.swiftpm/

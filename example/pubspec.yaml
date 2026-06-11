@@ -1,5 +1,6 @@
 name: flutter_document_picker_example
 description: Demonstrates how to use the flutter_document_picker plugin.
+publish_to: none
 
 version: 1.0.0+1
 
@@ -12,7 +13,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.5
-  flutter_document_picker: ^5.2.3
+  flutter_document_picker:
+    path: ../
 
 dev_dependencies:
   flutter_test:
