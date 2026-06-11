@@ -3,12 +3,7 @@ version = "1.0-SNAPSHOT"
 
 plugins {
     id("com.android.library")
-}
-
-val agpMajor = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.substringBefore('.').toInt()
-
-if (agpMajor < 9) {
-    apply(plugin = "org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -31,7 +26,7 @@ android {
     }
 }
 
-project.extensions.configure(org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension::class.java) {
+kotlin {
     compilerOptions {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
