@@ -34,6 +34,9 @@ build/
 .flutter-plugins-dependencies
 flutter_export_environment.sh
 example/ios/Flutter/Flutter.podspec
+example/.flutter-plugins-dependencies
+example/ios/Flutter/ephemeral/
+example/ios/Flutter/flutter_export_environment.sh
 
 # FVM Version Cache
 .fvm/
