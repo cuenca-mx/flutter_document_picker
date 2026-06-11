@@ -9,9 +9,9 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 class FlutterDocumentPickerPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
+    private var channel: MethodChannel? = null
     private var delegate: FlutterDocumentPickerDelegate? = null
     private var activityBinding: ActivityPluginBinding? = null
-
 
     companion object {
         const val TAG = "flutter_document_picker"
@@ -22,11 +22,14 @@ class FlutterDocumentPickerPlugin : FlutterPlugin, MethodCallHandler, ActivityAw
     }
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-        val channel = MethodChannel(binding.binaryMessenger, "flutter_document_picker")
-        channel.setMethodCallHandler(this)
+        channel = MethodChannel(binding.binaryMessenger, "flutter_document_picker").also {
+            it.setMethodCallHandler(this)
+        }
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+        channel?.setMethodCallHandler(null)
+        channel = null
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {

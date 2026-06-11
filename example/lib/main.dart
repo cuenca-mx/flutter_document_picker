@@ -4,11 +4,12 @@ import 'package:flutter_document_picker/flutter_document_picker.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
   @override
-  _MyAppState createState() => _MyAppState();
+  MyAppState createState() => MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class MyAppState extends State<MyApp> {
   String? _path = '-';
   bool _pickFileInProgress = false;
   bool _iosPublicDataUTI = true;
@@ -20,9 +21,7 @@ class _MyAppState extends State<MyApp> {
     text: 'com.sidlatau.example.mwfbak',
   );
 
-  final _extensionController = TextEditingController(
-    text: 'mwfbak',
-  );
+  final _extensionController = TextEditingController(text: 'mwfbak');
 
   final _mimeTypeController = TextEditingController(
     text: 'application/pdf image/png',
@@ -44,7 +43,7 @@ class _MyAppState extends State<MyApp> {
             IconButton(
               icon: Icon(Icons.open_in_new),
               onPressed: _pickFileInProgress ? null : _pickDocument,
-            )
+            ),
           ],
         ),
         body: SingleChildScrollView(
@@ -71,7 +70,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  _pickDocument() async {
+  Future<void> _pickDocument() async {
     String? result;
     try {
       setState(() {
@@ -82,21 +81,21 @@ class _MyAppState extends State<MyApp> {
       FlutterDocumentPickerParams params = FlutterDocumentPickerParams(
         allowedFileExtensions: _checkByCustomExtension
             ? _extensionController.text
-                .split(' ')
-                .where((x) => x.isNotEmpty)
-                .toList()
+                  .split(' ')
+                  .where((x) => x.isNotEmpty)
+                  .toList()
             : null,
         allowedUtiTypes: _iosPublicDataUTI
             ? null
             : _utiController.text
-                .split(' ')
-                .where((x) => x.isNotEmpty)
-                .toList(),
+                  .split(' ')
+                  .where((x) => x.isNotEmpty)
+                  .toList(),
         allowedMimeTypes: _checkByMimeType
             ? _mimeTypeController.text
-                .split(' ')
-                .where((x) => x.isNotEmpty)
-                .toList()
+                  .split(' ')
+                  .where((x) => x.isNotEmpty)
+                  .toList()
             : null,
       );
       if (_isMultipleSelection) {
@@ -106,7 +105,7 @@ class _MyAppState extends State<MyApp> {
         result = await FlutterDocumentPicker.openDocument(params: params);
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       result = 'Error: $e';
     } finally {
       setState(() {
@@ -119,7 +118,7 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  _buildIOSParams() {
+  Widget _buildIOSParams() {
     return ParamsCard(
       title: 'iOS Params',
       children: <Widget>[
@@ -145,7 +144,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  _buildAndroidParams() {
+  Widget _buildAndroidParams() {
     return ParamsCard(
       title: 'Android Params',
       children: <Widget>[
@@ -166,7 +165,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  _buildCommonParams() {
+  Widget _buildCommonParams() {
     return ParamsCard(
       title: 'Common Params',
       children: <Widget>[
@@ -219,7 +218,8 @@ class Param extends StatelessWidget {
   final String description;
   final String textLabel;
 
-  Param({
+  const Param({
+    super.key,
     required this.isEnabled,
     required this.onEnabledChanged,
     required this.controller,
@@ -236,16 +236,10 @@ class Param extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
-                child: Text(
-                  description,
-                  softWrap: true,
-                ),
+                child: Text(description, softWrap: true),
               ),
             ),
-            Checkbox(
-              value: isEnabled,
-              onChanged: onEnabledChanged,
-            ),
+            Checkbox(value: isEnabled, onChanged: onEnabledChanged),
           ],
         ),
         TextField(
@@ -265,10 +259,7 @@ class ParamsCard extends StatelessWidget {
   final String title;
   final List<Widget> children;
 
-  ParamsCard({
-    required this.title,
-    required this.children,
-  });
+  const ParamsCard({super.key, required this.title, required this.children});
 
   @override
   Widget build(BuildContext context) {
@@ -287,7 +278,8 @@ class ParamsCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
-            ]..addAll(children),
+              ...children,
+            ],
           ),
         ),
       ),
